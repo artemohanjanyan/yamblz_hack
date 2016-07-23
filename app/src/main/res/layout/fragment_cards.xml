@@ -54,6 +54,15 @@
             android:gravity="center"
             android:textSize="48sp"/>
 
+        <TextView
+            android:id="@+id/fragment_cards_text_translation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="48sp"
+            android:alpha="0"/>
+
         <ImageView
             android:id="@id/rememberView"
             android:layout_width="wrap_content"
