@@ -1,11 +1,11 @@
 package yamblz.hack.learning.ui;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import yamblz.hack.learning.R;
+import yamblz.hack.learning.ui.tasks.cards.CardsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -13,13 +13,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle(R.string.title);
-        if (getFragmentManager().findFragmentById(R.id.fragment_content) == null) {
-            Fragment fragment = ListFragment.newInstance();
-            FragmentTransaction fTrans = getFragmentManager().beginTransaction();
-            fTrans.add(R.id.fragment_content, fragment);
-            fTrans.addToBackStack(null);
-            fTrans.commit();
+
+        Log.d("asdf", "wewe");
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.activity_main, new CardsFragment())
+                    .commit();
         }
     }
 }

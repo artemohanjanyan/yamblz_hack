@@ -18,6 +18,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("qq", "ww");
         CardsLayout cardsLayout = (CardsLayout)
                 inflater.inflate(R.layout.fragment_cards, container, false);
         cardsLayout.setListener(this);
