@@ -16,6 +16,8 @@
     <string name="ex7">ВЫБОР ПЕРЕВОДА</string>
     <string name="ex8">ПЕРЕВОД НА КАРТИНКЕ</string>
     <string name="exFast">БЫСТРАЯ ТРЕНИРОВКА</string>
+    <string name="incorrect">Неверно</string>
+    <string name="correct">Верно</string>
 
 
 </resources>
