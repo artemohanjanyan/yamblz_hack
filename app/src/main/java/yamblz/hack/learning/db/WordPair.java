@@ -7,10 +7,15 @@ public class WordPair {
     private int learnCount;
 
     public WordPair(int id, int direction, String firstWord, String secondWord, int learnCount) {
+        this.id = id;
         this.direction = direction;
         this.firstWord = firstWord;
         this.secondWord = secondWord;
         this.learnCount = learnCount;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public int getDirection() {

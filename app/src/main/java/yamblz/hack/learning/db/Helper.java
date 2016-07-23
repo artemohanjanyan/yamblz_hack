@@ -14,6 +14,8 @@ import yamblz.hack.learning.R;
 
 public class Helper extends SQLiteOpenHelper {
 
+    public static final int MAX_LEARN_COUNT = 4;
+
     private Context context;
 
     private static final String DATABASE_NAME = "words.db";

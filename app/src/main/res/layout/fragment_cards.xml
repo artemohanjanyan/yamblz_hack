@@ -23,6 +23,13 @@
         android:layout_height="300dp"
         android:alpha="0">
 
+        <ImageView
+            android:id="@+id/fragment_cards_learn_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|center_horizontal"
+            android:layout_margin="8dp"/>
+
         <!--kek-->
         <Button
             android:id="@+id/fragment_cards_button"
@@ -39,21 +46,23 @@
             android:gravity="center"
             android:textSize="48sp"/>
 
-        <View
+        <ImageView
             android:id="@id/rememberView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="left|top"
-            android:background="#00ff00"
-            android:alpha="0"/>
+            android:layout_margin="8dp"
+            android:alpha="0"
+            android:src="@drawable/correct"/>
 
-        <View
+        <ImageView
             android:id="@+id/forgotView"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="right|top"
-            android:background="#ff0000"
-            android:alpha="0"/>
+            android:layout_margin="8dp"
+            android:alpha="0"
+            android:src="@drawable/incorrect"/>
 
     </android.support.v7.widget.CardView>
 

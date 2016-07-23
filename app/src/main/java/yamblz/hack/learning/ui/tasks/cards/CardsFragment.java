@@ -1,21 +1,26 @@
 package yamblz.hack.learning.ui.tasks.cards;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import yamblz.hack.learning.R;
 import yamblz.hack.learning.db.WordPair;
+import yamblz.hack.learning.db.WordPairUpdater;
 import yamblz.hack.learning.db.WordsLoader;
+import yamblz.hack.learning.ui.StartActivity;
 
 public class CardsFragment extends Fragment implements CardsLayout.Listener,
         LoaderManager.LoaderCallbacks<List<WordPair>> {
@@ -26,6 +31,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
     private View cardView;
     private TextView textView;
     private View button;
+    private ImageView learnCount;
 
     private List<WordPair> wordPairList;
     private int currentWord = 0;
@@ -41,6 +47,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
         cardView = cardsLayout.findViewById(R.id.cardView);
         textView = (TextView) cardsLayout.findViewById(R.id.fragment_cards_text_view);
         button = cardsLayout.findViewById(R.id.fragment_cards_button);
+        learnCount = (ImageView) cardsLayout.findViewById(R.id.fragment_cards_learn_count);
 
         return cardsLayout;
     }
@@ -53,15 +60,40 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
 
     private void inflateData() {
         progressBar.setVisibility(View.GONE);
+        updateData();
         ObjectAnimator
                 .ofFloat(cardView, "alpha", 0, 1)
                 .setDuration(400)
                 .start();
+    }
+
+    private void updateData() {
         textView.setText(wordPairList.get(currentWord).getFirstWord());
+        int drawableId = 0;
+        switch (wordPairList.get(currentWord).getLearnCount()) {
+            case 0:
+                drawableId = R.drawable.learnt_0;
+                break;
+            case 1:
+                drawableId = R.drawable.learnt_1;
+                break;
+            case 2:
+                drawableId = R.drawable.learnt_2;
+                break;
+            case 3:
+                drawableId = R.drawable.learnt_3;
+                break;
+            case 4:
+                Log.e(this.getClass().getSimpleName(), "max learnt count");
+                drawableId = R.drawable.learnt_4;
+                break;
+        }
+        learnCount.setImageResource(drawableId);
     }
 
     @Override
     public void OnRemember(CardsLayout view) {
+        new WordPairUpdater(getContext()).execute(wordPairList.get(currentWord));
         nextCard(view, -1);
     }
 
@@ -71,7 +103,12 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
     }
 
     private void nextCard(CardsLayout view, int sign) {
-        textView.setText(wordPairList.get((++currentWord) % wordPairList.size()).getFirstWord());
+        if (++currentWord == wordPairList.size()) {
+            Intent intent = new Intent(getContext(), StartActivity.class);
+            startActivity(intent);
+            return;
+        }
+        updateData();
         ObjectAnimator
                 .ofFloat(cardView, "translationX", sign * view.getWidth(), 0)
                 .setDuration(400)
@@ -85,7 +122,8 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
 
     @Override
     public void onLoadFinished(Loader<List<WordPair>> loader, List<WordPair> data) {
-        this.wordPairList = data;
+        wordPairList = data;
+        Log.d("qq", "" + wordPairList.size());
         button.setClickable(true);
         inflateData();
     }

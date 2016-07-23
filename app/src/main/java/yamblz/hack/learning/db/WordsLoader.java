@@ -30,39 +30,42 @@ public class WordsLoader extends AsyncTaskLoader<List<WordPair>> {
                      new String[]{Helper.DIRECTION, Helper.FIRST},
                      null, null, null, null, null)) {
             if (cursor.getCount() > 0) {
-                SQLiteDatabase writableDatabase = helper.getWritableDatabase();
-                SQLiteStatement statement = writableDatabase.compileStatement(String.format(
-                        "INSERT INTO %s (%s,   %s, %s, %s, %s) " +
-                                "VALUES (NULL,  ?,  ?,  ?,  ?)",
-                        Helper.TABLE_WORDS, Helper.ID, Helper.DIRECTION,
-                        Helper.FIRST, Helper.SECOND, Helper.LEARN_COUNT));
+                try (SQLiteDatabase writableDatabase = helper.getWritableDatabase()) {
+                    SQLiteStatement statement = writableDatabase.compileStatement(String.format(
+                            "INSERT INTO %s (%s,   %s, %s, %s, %s) " +
+                                    "VALUES (NULL,  ?,  ?,  ?,  ?)",
+                            Helper.TABLE_WORDS, Helper.ID, Helper.DIRECTION,
+                            Helper.FIRST, Helper.SECOND, Helper.LEARN_COUNT));
 
-                writableDatabase.beginTransaction();
+                    writableDatabase.beginTransaction();
 
-                while (cursor.moveToNext()) {
-                    int direction = cursor.getInt(0);
-                    String word = cursor.getString(1);
-                    Translation translation = TranslationLoader.loadTranslation(direction, word);
-                    if (translation != null && translation.getTranslations().size() > 1) {
-                        statement.bindLong(1, direction);
-                        statement.bindString(2, translation.getWord());
-                        statement.bindString(3, translation.getTranslations().get(0));
-                        statement.bindLong(4, 0);
-                        statement.executeInsert();
+                    while (cursor.moveToNext()) {
+                        int direction = cursor.getInt(0);
+                        String word = cursor.getString(1);
+                        Translation translation = TranslationLoader.loadTranslation(direction, word);
+                        if (translation != null && translation.getTranslations().size() > 1) {
+                            statement.bindLong(1, direction);
+                            statement.bindString(2, translation.getWord());
+                            statement.bindString(3, translation.getTranslations().get(0));
+                            statement.bindLong(4, 0);
+                            statement.executeInsert();
+                        }
                     }
+
+                    writableDatabase.delete(Helper.TABLE_UNKNOWN, null, null);
+
+                    writableDatabase.setTransactionSuccessful();
+                    writableDatabase.endTransaction();
                 }
-
-                writableDatabase.delete(Helper.TABLE_UNKNOWN, null, null);
-
-                writableDatabase.setTransactionSuccessful();
-                writableDatabase.endTransaction();
             }
         }
 
         try (SQLiteDatabase readableDatabase = helper.getReadableDatabase();
              Cursor cursor = readableDatabase.query(
-                     Helper.TABLE_WORDS + " ORDER BY RANDOM() LIMIT " + wordN,
-                     null, null, null, null, null, null)) {
+                     Helper.TABLE_WORDS, null,
+                     Helper.LEARN_COUNT + " < " + Helper.MAX_LEARN_COUNT, null, null, null,
+                     "RANDOM()",
+                     "" + wordN)) {
 
             List<WordPair> wordPairs = new ArrayList<>();
             while (cursor.moveToNext()) {
