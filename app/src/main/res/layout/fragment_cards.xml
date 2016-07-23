@@ -1,10 +1,10 @@
-<yamblz.hack.learning.ui.cards.CardsLayout
+<yamblz.hack.learning.ui.tasks.cards.CardsLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="yamblz.hack.learning.ui.cards.CardsFragment"
+    tools:context=".ui.tasks.cards.CardsFragment"
     tools:ignore="RtlHardcoded,ContentDescription"
     app:swipe_view_id="@+id/cardView"
     app:remember_view_id="@+id/rememberView"
@@ -48,4 +48,4 @@
 
     </android.support.v7.widget.CardView>
 
-</yamblz.hack.learning.ui.cards.CardsLayout>
+</yamblz.hack.learning.ui.tasks.cards.CardsLayout>

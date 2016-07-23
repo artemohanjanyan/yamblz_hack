@@ -4,7 +4,7 @@ import android.view.View;
 
 
 import yamblz.hack.learning.R;
-import yamblz.hack.learning.other.TaskSelectedListener;
+import yamblz.hack.learning.ui.other.TaskSelectedListener;
 
 public class FirstRecyclerAdapter extends RecyclerAdapter implements TaskSelectedListener {
 

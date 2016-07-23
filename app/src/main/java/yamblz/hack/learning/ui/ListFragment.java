@@ -6,7 +6,6 @@ package yamblz.hack.learning.ui;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import yamblz.hack.learning.R;
-import yamblz.hack.learning.adapters.FirstRecyclerAdapter;
+import yamblz.hack.learning.ui.adapters.FirstRecyclerAdapter;
 
 public class ListFragment extends Fragment  {
 
