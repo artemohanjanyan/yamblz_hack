@@ -1,9 +1,13 @@
 package yamblz.hack.learning.ui;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.LoaderManager;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.widget.TextView;
 
 import yamblz.hack.learning.R;
@@ -22,13 +26,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setContentView(R.layout.activity_main);
 //        makeRequest(Helper.DIRECTION_EN_RU, "cat");
         makeRequest(Helper.DIRECTION_RU_EN, "кошка");
+        setTitle(R.string.title);
+//        Toolbar mActionBarToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+//        setSupportActionBar(mActionBarToolbar);
+        if (getFragmentManager().findFragmentById(R.id.fragment_content) == null) {
+            Fragment fragment = ListFragment.newInstance();
+            FragmentTransaction fTrans = getFragmentManager().beginTransaction();
+            fTrans.add(R.id.fragment_content, fragment);
+            fTrans.addToBackStack(null);
+            fTrans.commit();
+        }
     }
 
-    void makeRequest(int lang, String text) {
+    private void makeRequest(int lang, String text) {
         Bundle args = new Bundle();
         args.putString(TEXT, text);
         args.putInt(LANG_DIR, lang);
         getLoaderManager().initLoader(0, args, this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        return true;
     }
 
     @Override
@@ -39,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoadFinished(Loader<Word> loader, Word data) {
         if (data != null) {
-            ((TextView)findViewById(R.id.hello)).setText(data.getWord() + " -> " + data.getTranslation());
+//            ((TextView)findViewById(R.id.hello)).setText(data.getWord() + " -> " + data.getTranslation());
         }
     }
 

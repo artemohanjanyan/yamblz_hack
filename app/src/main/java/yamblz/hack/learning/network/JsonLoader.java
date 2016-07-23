@@ -26,7 +26,8 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
     private Word response;
     private String request;
     private int dir;
-    private static final String key = "dict.1.1.20160722T221101Z.cd274f79e52e36f9.52ff53c690429e4d02ad3adf9018e3d4d6ddb6aa";
+    private static final String key =
+            "dict.1.1.20160722T221101Z.cd274f79e52e36f9.52ff53c690429e4d02ad3adf9018e3d4d6ddb6aa";
 
 
     public JsonLoader(Context context, int dir, String request) {
@@ -51,7 +52,7 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
         return response;
     }
 
-    String makeRequest(int lang, String text) {
+    private String makeRequest(int lang, String text) {
         String direction = (lang == Helper.DIRECTION_EN_RU) ? "en-ru" : "ru-en";
         return key+"&lang="+direction+"&text="+text;
     }
