@@ -12,7 +12,7 @@ public class Word {
     ArrayList<String> translations;
     private int progress = 0;
 
-    Word() {
+    public Word() {
         translations = new ArrayList<>();
     }
 
