@@ -1,14 +1,15 @@
 package yamblz.hack.learning.db;
 
 public class WordPair {
-    private int direction, learnCount;
+    private int direction;
     private String firstWord, secondWord;
+    private int learnCount;
 
-    public WordPair(int direction, int learnCount, String firstWord, String secondWord) {
+    public WordPair(int direction, String firstWord, String secondWord, int learnCount) {
         this.direction = direction;
-        this.learnCount = learnCount;
         this.firstWord = firstWord;
         this.secondWord = secondWord;
+        this.learnCount = learnCount;
     }
 
     public int getDirection() {

@@ -1,11 +1,12 @@
 package yamblz.hack.learning.network;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Translation {
 
     private String word;
-    private ArrayList<String> translations;
+    private List<String> translations;
 
     public Translation() {
         translations = new ArrayList<>();
@@ -19,8 +20,8 @@ public class Translation {
         this.word = word;
     }
 
-    public String getTranslation() {
-        return translations.get(0);
+    public List<String> getTranslations() {
+        return translations;
     }
 
     public String getWord() {

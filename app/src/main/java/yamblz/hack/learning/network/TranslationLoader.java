@@ -35,6 +35,11 @@ public class TranslationLoader extends AsyncTaskLoader<Translation> {
      */
     @Override
     public Translation loadInBackground() {
+        return loadTranslation(dir, request);
+    }
+
+    public static Translation loadTranslation(int dir, String request) {
+        Translation response;
         try {
             response = getResponse(dir, request);
         } catch (Exception e) {
@@ -44,12 +49,12 @@ public class TranslationLoader extends AsyncTaskLoader<Translation> {
         return response;
     }
 
-    private String makeRequest(int lang, String text) {
+    private static String makeRequest(int lang, String text) {
         String direction = (lang == Helper.DIRECTION_EN_RU) ? "en-ru" : "ru-en";
         return key+"&lang="+direction+"&text="+text;
     }
 
-    private Translation getResponse(int lang, String request) throws IOException {
+    private static Translation getResponse(int lang, String request) throws IOException {
 
         URL url = new URL("https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=" + makeRequest(lang, request));
 
@@ -66,7 +71,7 @@ public class TranslationLoader extends AsyncTaskLoader<Translation> {
     /**
      * Combine all performers
      */
-    private Translation readJson(JsonReader reader) throws IOException {
+    private static Translation readJson(JsonReader reader) throws IOException {
         Translation cur = new Translation();
         reader.beginObject();
         while (reader.hasNext()) {
@@ -79,7 +84,7 @@ public class TranslationLoader extends AsyncTaskLoader<Translation> {
     /**
      * Read information about individual performers
      */
-    private Translation takeData(JsonReader reader) throws IOException {
+    private static Translation takeData(JsonReader reader) throws IOException {
         Translation res = new Translation();
 
         while (reader.hasNext()) {

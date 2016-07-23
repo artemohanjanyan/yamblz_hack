@@ -19,7 +19,7 @@ public class Helper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "words.db";
     private static final int DATABASE_VERSION = 1;
 
-    public static final String TABLE_NAME = "words";
+    public static final String TABLE_WORDS = "words";
     public static final String
             ID = "_ID",
             DIRECTION = "DIRECTION",
@@ -40,7 +40,7 @@ public class Helper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.d(this.getClass().getSimpleName(), "onCreate");
-        db.execSQL("CREATE TABLE " + TABLE_NAME + " (" +
+        db.execSQL("CREATE TABLE " + TABLE_WORDS + " (" +
                 ID + " INTEGER PRIMARY KEY," +
                 DIRECTION + " INTEGER," +
                 FIRST + " TEXT," +
@@ -55,7 +55,7 @@ public class Helper extends SQLiteOpenHelper {
         try (JsonReader reader = new JsonReader(new InputStreamReader(
                 context.getResources().openRawResource(R.raw.words)))) {
             SQLiteStatement statement = db.compileStatement(String.format(
-                    "INSERT INTO %s (%s, %s, %s) " +
+                    "INSERT INTO %s (%s,   %s, %s) " +
                             "VALUES (NULL,  ?,  ?)",
                     TABLE_UNKNOWN, ID, DIRECTION, FIRST));
 
@@ -94,7 +94,7 @@ public class Helper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
         onCreate(db);
     }
 }
