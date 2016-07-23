@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.support.v4.content.AsyncTaskLoader;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,8 @@ import yamblz.hack.learning.network.Translation;
 import yamblz.hack.learning.network.TranslationLoader;
 
 public class WordsLoader extends AsyncTaskLoader<List<WordPair>> {
-    private int wordN;
+    private volatile int wordN;
+    private List<WordPair> wordPairList;
 
     public WordsLoader(Context context, int wordN) {
         super(context);
@@ -39,7 +39,7 @@ public class WordsLoader extends AsyncTaskLoader<List<WordPair>> {
 
                 writableDatabase.beginTransaction();
 
-                for (int i = 0; i < wordN && cursor.moveToNext(); ++i) {
+                while (cursor.moveToNext()) {
                     int direction = cursor.getInt(0);
                     String word = cursor.getString(1);
                     Translation translation = TranslationLoader.loadTranslation(direction, word);
@@ -52,6 +52,8 @@ public class WordsLoader extends AsyncTaskLoader<List<WordPair>> {
                     }
                 }
 
+                writableDatabase.delete(Helper.TABLE_UNKNOWN, null, null);
+
                 writableDatabase.setTransactionSuccessful();
                 writableDatabase.endTransaction();
             }
@@ -60,18 +62,40 @@ public class WordsLoader extends AsyncTaskLoader<List<WordPair>> {
         try (SQLiteDatabase readableDatabase = helper.getReadableDatabase();
              Cursor cursor = readableDatabase.query(
                      Helper.TABLE_WORDS + " ORDER BY RANDOM() LIMIT " + wordN,
-                     new String[]{Helper.DIRECTION, Helper.FIRST, Helper.SECOND, Helper.LEARN_COUNT},
-                     null, null, null, null, null)) {
+                     null, null, null, null, null, null)) {
 
             List<WordPair> wordPairs = new ArrayList<>();
             while (cursor.moveToNext()) {
                 wordPairs.add(new WordPair(
-                        (int) cursor.getLong(1),
+                        cursor.getInt(0),
+                        cursor.getInt(1),
                         cursor.getString(2),
                         cursor.getString(3),
-                        (int) cursor.getLong(4)));
+                        cursor.getInt(4)));
             }
             return wordPairs;
         }
+    }
+
+    @Override
+    protected void onStartLoading() {
+        super.onStartLoading();
+        if (wordPairList == null) {
+            forceLoad();
+        } else {
+            deliverResult(wordPairList);
+        }
+    }
+
+    @Override
+    public void deliverResult(List<WordPair> data) {
+        wordPairList = data;
+        super.deliverResult(data);
+    }
+
+    @Override
+    public void onCanceled(List<WordPair> data) {
+        wordPairList = data;
+        super.onCanceled(data);
     }
 }

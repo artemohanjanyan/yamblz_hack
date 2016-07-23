@@ -17,7 +17,7 @@ public class Helper extends SQLiteOpenHelper {
     private Context context;
 
     private static final String DATABASE_NAME = "words.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
 
     public static final String TABLE_WORDS = "words";
     public static final String
@@ -95,6 +95,7 @@ public class Helper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_UNKNOWN);
         onCreate(db);
     }
 }
