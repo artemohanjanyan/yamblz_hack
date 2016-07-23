@@ -1,4 +1,4 @@
-package yamblz.hack.learning.ui.cards;
+package yamblz.hack.learning.ui.tasks.cards;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
