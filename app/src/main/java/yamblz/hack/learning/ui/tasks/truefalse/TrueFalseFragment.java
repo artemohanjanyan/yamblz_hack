@@ -1,6 +1,5 @@
 package yamblz.hack.learning.ui.tasks.truefalse;
 
-import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,12 +17,9 @@ import java.util.List;
 import java.util.Random;
 
 import yamblz.hack.learning.R;
-import yamblz.hack.learning.db.Helper;
 import yamblz.hack.learning.db.WordPair;
 import yamblz.hack.learning.db.WordsLoader;
-import yamblz.hack.learning.network.TranslationLoader;
 import yamblz.hack.learning.ui.StartActivity;
-import yamblz.hack.learning.ui.tasks.cards.CardsLayout;
 
 public class TrueFalseFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<WordPair>>, View.OnClickListener {
 

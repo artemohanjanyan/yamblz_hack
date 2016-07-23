@@ -64,15 +64,6 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
         getLoaderManager().initLoader(0, null, this);
     }
 
-    private void inflateData() {
-        loadingProgressBar.setVisibility(View.GONE);
-        updateData();
-        ObjectAnimator
-                .ofFloat(cardView, "alpha", 0, 1)
-                .setDuration(400)
-                .start();
-    }
-
     private void updateData() {
         textView.setText(wordPairList.get(currentWord).getFirstWord());
         int drawableId = 0;
@@ -153,7 +144,12 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
     public void onLoadFinished(Loader<List<WordPair>> loader, List<WordPair> data) {
         wordPairList = data;
         button.setClickable(true);
-        inflateData();
+        loadingProgressBar.setVisibility(View.GONE);
+        updateData();
+        ObjectAnimator
+                .ofFloat(cardView, "alpha", 0, 1)
+                .setDuration(1000)
+                .start();
     }
 
     @Override
