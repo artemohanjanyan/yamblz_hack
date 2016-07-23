@@ -1,0 +1,51 @@
+<yamblz.hack.learning.ui.cards.CardsLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="yamblz.hack.learning.ui.cards.CardsFragment"
+    tools:ignore="RtlHardcoded,ContentDescription"
+    app:swipe_view_id="@+id/cardView"
+    app:remember_view_id="@+id/rememberView"
+    app:forgot_view_id="@+id/forgotView">
+
+    <android.support.v7.widget.CardView
+        android:layout_gravity="center"
+        android:id="@id/cardView"
+        android:layout_width="300dp"
+        android:layout_height="300dp">
+
+        <!--kek-->
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="48sp"
+            android:text="test"/>
+
+        <View
+            android:id="@id/rememberView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left|top"
+            android:background="#00ff00"
+            android:alpha="0"/>
+
+        <View
+            android:id="@+id/forgotView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right|top"
+            android:background="#ff0000"
+            android:alpha="0"/>
+
+    </android.support.v7.widget.CardView>
+
+</yamblz.hack.learning.ui.cards.CardsLayout>

@@ -97,9 +97,4 @@ public class Helper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-
-    @Override
-    public synchronized void close() {
-        super.close();
-    }
 }
