@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import yamblz.hack.learning.R;
-import yamblz.hack.learning.other.TaskSelectedListener;
 
 /**
  * Adapter for RecycleView
@@ -15,7 +14,6 @@ import yamblz.hack.learning.other.TaskSelectedListener;
 public abstract class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.TasksViewHolder>
         implements View.OnClickListener {
 
-    public abstract void setPerformerSelectedListener(TaskSelectedListener listener);
 
     class TasksViewHolder extends RecyclerView.ViewHolder {
         TextView title;
@@ -35,6 +33,5 @@ public abstract class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapt
         view.setOnClickListener(this);
         return new TasksViewHolder(view);
     }
-
 
 }
