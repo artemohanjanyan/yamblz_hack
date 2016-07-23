@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -27,11 +28,12 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
 
     private static final int WORD_N = 10;
 
-    private View progressBar;
+    private View loadingProgressBar;
     private View cardView;
     private TextView textView;
     private View button;
     private ImageView learnCount;
+    private ProgressBar progressBar;
 
     private List<WordPair> wordPairList;
     private int currentWord = 0;
@@ -43,11 +45,12 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
                 inflater.inflate(R.layout.fragment_cards, container, false);
         cardsLayout.setListener(this);
 
-        progressBar = cardsLayout.findViewById(R.id.fragment_cards_progress_bar);
+        loadingProgressBar = cardsLayout.findViewById(R.id.fragment_cards_loading_progress_bar);
         cardView = cardsLayout.findViewById(R.id.cardView);
         textView = (TextView) cardsLayout.findViewById(R.id.fragment_cards_text_view);
         button = cardsLayout.findViewById(R.id.fragment_cards_button);
         learnCount = (ImageView) cardsLayout.findViewById(R.id.fragment_cards_learn_count);
+        progressBar = (ProgressBar) cardsLayout.findViewById(R.id.fragment_cards_progress_bar);
 
         return cardsLayout;
     }
@@ -59,7 +62,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
     }
 
     private void inflateData() {
-        progressBar.setVisibility(View.GONE);
+        loadingProgressBar.setVisibility(View.GONE);
         updateData();
         ObjectAnimator
                 .ofFloat(cardView, "alpha", 0, 1)
@@ -89,6 +92,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
                 break;
         }
         learnCount.setImageResource(drawableId);
+        progressBar.setProgress(currentWord);
     }
 
     @Override

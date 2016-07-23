@@ -11,7 +11,15 @@
     app:forgot_view_id="@+id/forgotView">
 
     <ProgressBar
-        android:id="@+id/fragment_cards_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_margin="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10"
+        android:id="@+id/fragment_cards_progress_bar" />
+
+    <ProgressBar
+        android:id="@+id/fragment_cards_loading_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
