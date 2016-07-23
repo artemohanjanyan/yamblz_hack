@@ -1,35 +1,28 @@
 package yamblz.hack.learning.network;
 
-/**
- * Created by vorona on 23.07.16.
- */
-
 import android.content.AsyncTaskLoader;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.JsonReader;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import yamblz.hack.learning.db.Helper;
-import yamblz.hack.learning.db.Word;
 
 /**
- * Created by vorona on 19.07.16.
+ * Created by Veda Voronina
  */
 
-public class JsonLoader extends AsyncTaskLoader<Word> {
-    private Word response;
+public class TranslationLoader extends AsyncTaskLoader<Translation> {
+    private Translation response;
     private String request;
     private int dir;
-    private static final String key = "dict.1.1.20160722T221101Z.cd274f79e52e36f9.52ff53c690429e4d02ad3adf9018e3d4d6ddb6aa";
+    private static final String key =
+            "dict.1.1.20160722T221101Z.cd274f79e52e36f9.52ff53c690429e4d02ad3adf9018e3d4d6ddb6aa";
 
-
-    public JsonLoader(Context context, int dir, String request) {
+    public TranslationLoader(Context context, int dir, String request) {
         super(context);
         this.request = request;
         this.dir = dir;
@@ -41,7 +34,7 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
      * data to be published by the loader.
      */
     @Override
-    public Word loadInBackground() {
+    public Translation loadInBackground() {
         try {
             response = getResponse(dir, request);
         } catch (Exception e) {
@@ -51,26 +44,20 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
         return response;
     }
 
-    String makeRequest(int lang, String text) {
+    private String makeRequest(int lang, String text) {
         String direction = (lang == Helper.DIRECTION_EN_RU) ? "en-ru" : "ru-en";
         return key+"&lang="+direction+"&text="+text;
     }
 
-    private Word getResponse(int lang, String request) throws IOException {
+    private Translation getResponse(int lang, String request) throws IOException {
 
         URL url = new URL("https://dictionary.yandex.net/api/v1/dicservice.json/lookup?key=" + makeRequest(lang, request));
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        InputStream in = connection.getInputStream();
-        try {
-            JsonReader reader = new JsonReader(new InputStreamReader(in));
-            Word res = readJson(reader);
-            reader.close();
-            return res;
+        try (JsonReader reader = new JsonReader(new InputStreamReader(
+                connection.getInputStream()))) {
+            return readJson(reader);
         } finally {
-            if (in != null) {
-                in.close();
-            }
             connection.disconnect();
         }
 
@@ -79,8 +66,8 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
     /**
      * Combine all performers
      */
-    private Word readJson(JsonReader reader) throws IOException {
-        Word cur = new Word();
+    private Translation readJson(JsonReader reader) throws IOException {
+        Translation cur = new Translation();
         reader.beginObject();
         while (reader.hasNext()) {
             cur = takeData(reader);
@@ -92,8 +79,8 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
     /**
      * Read information about individual performers
      */
-    private Word takeData(JsonReader reader) throws IOException {
-        Word res = new Word();
+    private Translation takeData(JsonReader reader) throws IOException {
+        Translation res = new Translation();
 
         while (reader.hasNext()) {
             String name = reader.nextName();
@@ -145,7 +132,7 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
      * here just adds a little more logic.
      */
     @Override
-    public void deliverResult(Word sin) {
+    public void deliverResult(Translation sin) {
         if (isReset()) {
             // An async query came in while the loader is stopped.  We
             // don't need the result.
@@ -193,7 +180,7 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
      * Handles a request to cancel a load.
      */
     @Override
-    public void onCanceled(Word singers) {
+    public void onCanceled(Translation singers) {
         super.onCanceled(singers);
 
         // At this point we can release the resources associated with 'apps'
@@ -224,7 +211,7 @@ public class JsonLoader extends AsyncTaskLoader<Word> {
      * with an actively loaded data set.
      * @param singers
      */
-    protected void onReleaseResources(Word singers) {
+    protected void onReleaseResources(Translation singers) {
         // For a simple List<> there is nothing to do.  For something
         // like a Cursor, we would close it here.
     }

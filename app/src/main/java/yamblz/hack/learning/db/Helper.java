@@ -25,7 +25,7 @@ public class Helper extends SQLiteOpenHelper {
             DIRECTION = "DIRECTION",
             FIRST = "FIRST",
             SECOND = "SECOND",
-            LEVEL = "LEVEL";
+            LEARN_COUNT = "LEARN_COUNT";
 
     public static final String TABLE_UNKNOWN = "unknownWords";
 
@@ -45,7 +45,7 @@ public class Helper extends SQLiteOpenHelper {
                 DIRECTION + " INTEGER," +
                 FIRST + " TEXT," +
                 SECOND + " TEXT, " +
-                LEVEL + " INTEGER)");
+                LEARN_COUNT + " INTEGER)");
 
         db.execSQL("CREATE TABLE " + TABLE_UNKNOWN + " (" +
                 ID + " INTEGER PRIMARY KEY," +
