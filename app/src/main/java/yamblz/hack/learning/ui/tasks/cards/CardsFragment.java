@@ -29,6 +29,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
 
     private static final int WORD_N = 10;
 
+    // В onDestroyView желательно view обнулять, чтобы они могли уничтожиться
     private View loadingProgressBar;
     private View cardView;
     private TextView textView;
@@ -113,6 +114,7 @@ public class CardsFragment extends Fragment implements CardsLayout.Listener,
 
     @Override
     public void OnRemember(CardsLayout view) {
+        // Контекст будет утекать
         new WordPairUpdater(getContext()).execute(wordPairList.get(currentWord));
         nextCard(view, -1);
     }

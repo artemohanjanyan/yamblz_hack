@@ -15,6 +15,8 @@ public class WordPairUpdater extends AsyncTask<WordPair, Void, Void> {
     @Override
     protected Void doInBackground(WordPair... wordPairs) {
         WordPair wordPair = wordPairs[0];
+        // Хелпер необязательно создавать каждый раз, его можно хранить довольно долго. Однако, инстансы бд
+        // хранить рекомендуется как можно меньше
         Helper helper = new Helper(context);
         context = null;
 
