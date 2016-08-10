@@ -19,6 +19,7 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        // Некрасиво и неудобно. Лучше завязываться на ID (View#getId) без instanceof'ов
         if (view instanceof Button) {
             String s = ((Button) view).getText().toString();
             int num = 0;
@@ -31,6 +32,8 @@ public class StartActivity extends AppCompatActivity implements View.OnClickList
             if (s.equals(getString(R.string.ex7))) num = 7;
             if (s.equals(getString(R.string.ex8))) num = 8;
             Intent start = new Intent(this, MainActivity.class);
+            // Константы нужно выносить, а еще лучше для активити сделать статический факторный метод аналогичный, как для
+            // фрагментов обычно делается
             start.putExtra("Type", num);
             startActivity(start);
         }

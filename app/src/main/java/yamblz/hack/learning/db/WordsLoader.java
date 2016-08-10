@@ -70,6 +70,8 @@ public class WordsLoader extends AsyncTaskLoader<List<WordPair>> {
             List<WordPair> wordPairs = new ArrayList<>();
             while (cursor.moveToNext()) {
                 wordPairs.add(new WordPair(
+                        // Вот это трудно будет поддерживать. Лучше подобное инкапсулировать в каком-нибудь классе,
+                        // который единственный знает про схему
                         cursor.getInt(0),
                         cursor.getInt(1),
                         cursor.getString(2),

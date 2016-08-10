@@ -1,6 +1,8 @@
 package yamblz.hack.learning.db;
 
 public class WordPair {
+
+    // Не чурайтесь расставлять final везде, где возможно
     private int id;
     private int direction;
     private String firstWord, secondWord;
